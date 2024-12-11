@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>B站弹幕情感分析</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='bootstrap5/bootstrap.min.css') }}"
+    />
+    <script src="{{ url_for('static', filename='bootstrap5/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap5/bootstrap.min.js') }}"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='CSS/base.css') }}"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      #wordcloud {
+        margin: 20px auto;
+        display: block;
+        max-width: 800px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container my-5">
+      <h1 class="text-center mb-4">B站弹幕情感分析</h1>
+
+      <!-- 输入B站视频链接 -->
+      <div class="mb-4">
+        <label for="videoLink" class="form-label">请输入B站视频链接：</label>
+        <input
+          type="text"
+          class="form-control"
+          id="videoLink"
+          placeholder="例如：https://www.bilibili.com/video/BV1Kz411w7rZ"
+        />
+      </div>
+
+      <!-- 模型选择 -->
+      <div class="mb-4">
+        <label for="modelSelect" class="form-label">选择情感分析模型：</label>
+        <select class="form-select" id="modelSelect">
+          <option value="model1">2分类模型</option>
+          <option value="model2">4分类模型</option>
+        </select>
+      </div>
+
+      <!-- 分析与词云生成按钮 -->
+      <div class="mb-4 text-center">
+        <button class="btn btn-primary me-2" id="generateWordCloudBtn">
+          生成词云
+        </button>
+        <button class="btn btn-success" id="analyzeBtn">开始分析</button>
+      </div>
+
+      <!-- 词云展示 -->
+      <h3 class="text-center mb-3">词云展示</h3>
+      <div class="text-center">
+        <img
+          id="wordCloudImg"
+          src=""
+          alt="词云生成中..."
+          style="max-width: 100%; display: none"
+        />
+      </div>
+
+      <!-- 结果展示表格 -->
+      <div
+        style="
+          max-height: 300px;
+          overflow-y: auto;
+          border: 1px solid #dee2e6;
+          border-radius: 5px;
+        "
+      ></div>
+      <h3 class="text-center mb-3">情感分析结果</h3>
+      <table class="table table-striped" id="resultsTable">
+        <thead>
+          <tr>
+            <th scope="col">弹幕内容</th>
+            <th scope="col">情感倾向</th>
+            <th scope="col">得分</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 结果会动态填充 -->
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      // 生成词云
+      document
+        .getElementById("generateWordCloudBtn")
+        .addEventListener("click", function () {
+          const videoLink = document.getElementById("videoLink").value;
+
+          if (videoLink) {
+            fetch("/generate_wordcloud", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ video_link: videoLink }),
+            })
+              .then((response) => response.blob()) // 获取图片数据
+              .then((blob) => {
+                const imgUrl = URL.createObjectURL(blob); // 创建本地 URL
+                const wordCloudImg = document.getElementById("wordCloudImg");
+                wordCloudImg.src = imgUrl; // 更新图片
+                wordCloudImg.style.display = "block"; // 显示图片
+              })
+              .catch((error) => {
+                alert("生成词云失败，请稍后再试");
+                console.error("Error:", error);
+              });
+          } else {
+            alert("请输入B站视频链接");
+          }
+        });
+
+      // 情感分析
+      document
+        .getElementById("analyzeBtn")
+        .addEventListener("click", function () {
+          const videoLink = document.getElementById("videoLink").value;
+          const selectedModel = document.getElementById("modelSelect").value;
+
+          if (videoLink) {
+            fetch("/analyze", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                video_link: videoLink,
+                model: selectedModel,
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                const tableBody = document
+                  .getElementById("resultsTable")
+                  .getElementsByTagName("tbody")[0];
+                tableBody.innerHTML = "";
+
+                data.results.forEach((result) => {
+                  const row = tableBody.insertRow();
+                  row.insertCell(0).innerText = result.content;
+                  row.insertCell(1).innerText = result.label;
+                  row.insertCell(2).innerText = result.score;
+                });
+              })
+              .catch((error) => {
+                alert("分析失败，请稍后再试");
+                console.error("Error:", error);
+              });
+          } else {
+            alert("请输入B站视频链接");
+          }
+        });
+    </script>
+  </body>
+</html>
