@@ -10,9 +10,13 @@ NLP-study/
 │ └── SentimentAnalysisOFBiliBiliPopUps/ # B 站弹幕情感分析项目
 │ ├── frontend_and_backend/ # 前后端实现
 │ │ ├── backend.py # Flask 后端服务
-│ │ ├── templates/ # HTML 模板文件
-│ │ └── static/ # 静态资源文件
+│ │ ├── gunicorn_config.py # Gunicorn 配置文件
+│ │ ├── static/ # 静态资源文件
+│ │ │ ├── bootstrap5/ # Bootstrap 5 框架文件
+│ │ │ └── CSS/ # 自定义样式文件
+│ │ └── templates/ # HTML 模板文件
 │ └── data/ # 训练数据集
+├── LICENSE # GNU GPL v3.0 开源协议
 └── README.md # 项目说明文档
 
 ## 主要功能
