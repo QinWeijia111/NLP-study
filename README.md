@@ -1,8 +1,9 @@
 # NLP-study
 
-这是一个自然语言处理(NLP)学习项目，主要包含了基于 BERT 的文本分类应用。
+这是一个自然语言处理(NLP)学习项目，目前包含了文本分类应用（后续会继续添加其他应用）。
+目前包含了 B 站弹幕情感分析系统的项目，前端采用 Bootstrap 5 框架，后端采用 Flask 框架。
 
-## 项目结构
+## TextSequenceClassification 项目结构
 
 ```
 NLP-study/
