@@ -4,6 +4,7 @@
 
 ## 项目结构
 
+```
 NLP-study/
 ├── TextSequenceClassification/ # 文本分类相关代码
 │ ├── example.ipynb # BERT 模型微调示例代码
@@ -18,6 +19,7 @@ NLP-study/
 │ └── data/ # 训练数据集
 ├── LICENSE # GNU GPL v3.0 开源协议
 └── README.md # 项目说明文档
+```
 
 ## 主要功能
 
