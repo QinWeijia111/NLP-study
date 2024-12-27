@@ -8,6 +8,7 @@
 ```
 NLP-study/
 ├── TextSequenceClassification/ # 文本分类相关代码
+│ ├── requirements.txt # 项目依赖
 │ ├── example.ipynb # BERT 模型微调示例代码
 │ └── SentimentAnalysisOFBiliBiliPopUps/ # B 站弹幕情感分析项目
 │ ├── frontend_and_backend/ # 前后端实现
