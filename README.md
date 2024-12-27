@@ -41,8 +41,8 @@ NLP-study/
 
 项目使用的预训练模型已开源在 Hugging Face:
 
-- [二分类模型](https://huggingface.co/qinweijia/bert-base-chinese-finetuned-sentiment)
-- [四分类模型](https://huggingface.co/qinweijia/finbert-tone-chinese-finetuned-sentiment)
+- [二分类模型](https://huggingface.co/qinweijia/finbert-tone-chinese-finetuned-sentiment)
+- [四分类模型](https://huggingface.co/qinweijia/distilbert-base-uncased-finetuned-cola)
 
 ## 使用说明
 
